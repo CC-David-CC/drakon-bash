@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DRAKON Bash</title>
+    <link rel="icon" href="./icon.svg" />
+    <style>
+      html,
+      body,
+      main {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: #f6f7f4;
+      }
+      main {
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <main></main>
+    <script type="module">
+      import { mount } from './app.mjs';
+      const view = mount();
+      document.querySelector('main').append(view.element);
+      window.addEventListener('pagehide', () => view.dispose(), { once: true });
+    </script>
+  </body>
+</html>

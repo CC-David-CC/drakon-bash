@@ -1,0 +1,19 @@
+[
+  "app.mjs",
+  "language.mjs",
+  "icon.svg",
+  "runtime/NOTICE.md",
+  "runtime/compiler.mjs",
+  "runtime/files.mjs",
+  "runtime/legacy.mjs",
+  "runtime/model.mjs",
+  "runtime/studio.mjs",
+  "runtime/style.mjs",
+  "runtime/vendor/DRAKONGEN-LICENSE.txt",
+  "runtime/vendor/DRAKONWIDGET-LICENSE.txt",
+  "runtime/vendor/SQLJS-LICENSE.txt",
+  "runtime/vendor/sqlite.mjs",
+  "runtime/vendor/structure.mjs",
+  "runtime/vendor/widget.mjs",
+  "runtime/view.mjs"
+]

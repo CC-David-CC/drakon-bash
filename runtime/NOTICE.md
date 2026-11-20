@@ -1,0 +1,6 @@
+# Third-party notices
+
+- **DrakonWidget 1.5.7** by Stepan Mitkin supplies the visual DRAKON canvas. This distribution adapts its JavaScript build to an ES module, scopes styles to the window, and releases per-window listeners and styles on disposal. Source revision `daccd7412a80af25100fd950b3e1d073a4b2a8c9`. [Upstream](https://github.com/stepan-mitkin/drakonwidget) · [license](vendor/DRAKONWIDGET-LICENSE.txt).
+- **drakongen** from drakon.tech.desktop supplies structured control-flow analysis. This distribution exposes the browser build as an ES module and preserves native plain-text statements during graph conversion. Source revision `9cf0573dc81f89d640e667a8000cff51b0e76677`. [Upstream](https://github.com/stepan-mitkin/drakon.tech.desktop) · [license](vendor/DRAKONGEN-LICENSE.txt).
+- **sql.js 1.13.0** supplies the SQLite reader for legacy desktop files. The offline asm.js distribution is wrapped for ES module loading. [Upstream](https://github.com/sql-js/sql.js) · [license](vendor/SQLJS-LICENSE.txt).
+- The complete handoff includes the original DRAKON Editor JavaScript database `examples/Javascript/Demo.drn` as an import fixture. The supplied DRAKON Editor distribution identifies the editor as public domain. [Upstream](https://github.com/stepan-mitkin/drakon_editor).
