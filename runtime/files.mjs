@@ -1,21 +1,26 @@
 const sha = (value) => typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
 export function fileBridge(host, signal) {
-  const session = host?.session?.(),
-    subject = host?.storage?.signedInSubject?.();
-  const hosted = !!subject && typeof host?.storage?.accountFileContext === 'function';
+  const session = host?.session?.();
+  const storage = host?.storage;
+  const workspace = typeof storage?.workspaceFileContext === 'function';
+  const owner = workspace ? storage.workspaceOwner : storage?.signedInSubject;
+  const openContext = workspace ? storage.workspaceFileContext : storage?.accountFileContext;
+  const pickFile = workspace ? storage.pickWorkspaceFile : storage?.pickAccountFile;
+  const subject = owner?.();
+  const hosted = !!subject && typeof openContext === 'function';
   function live(ctx) {
     if (signal.aborted) throw new DOMException('Window closed.', 'AbortError');
     if (
       hosted &&
       (host.session?.() !== session ||
-        host.storage.signedInSubject?.() !== subject ||
+        owner?.() !== subject ||
         (ctx && (!ctx.valid() || ctx.owner !== subject)))
     )
       throw Error('This account window is no longer active.');
   }
   async function context() {
     live();
-    const ctx = await host.storage.accountFileContext();
+    const ctx = await openContext();
     live(ctx);
     return ctx;
   }
@@ -26,11 +31,12 @@ export function fileBridge(host, signal) {
       /[\\\u0000-\u001f]/.test(path) ||
       path.split('/').some((x) => !x || x === '.' || x === '..')
     )
-      throw Error('Choose a file within your account.');
+      throw Error('Choose a file in My files.');
     return path;
   }
   return {
     hosted,
+    location: hosted ? (session?.public?.kind === 'anonymous' ? 'Temporary Files' : 'Account Files') : 'Device files',
     live,
     launch() {
       const f = host?.w?.launchContext;
@@ -41,13 +47,13 @@ export function fileBridge(host, signal) {
     },
     async pick(extensions) {
       live();
-      const p = await host.storage.pickAccountFile({ extensions, signal });
+      const p = await pickFile({ extensions, signal });
       live();
       return p == null ? null : checkPath(p.slice(1));
     },
     async destination(suggested, suffix) {
       live();
-      const folder = await host.storage.pickAccountFile({ foldersOnly: true, signal });
+      const folder = await pickFile({ foldersOnly: true, signal });
       live();
       if (folder == null) return null;
       const answer = await host.ui.prompt('File name', {
@@ -72,7 +78,7 @@ export function fileBridge(host, signal) {
         r = await ctx.files.read(path, { signal });
       live(ctx);
       if (!sha(r.sha256) || (expected && expected !== r.sha256))
-        throw Error('This account file changed. Reopen the current revision in Files.');
+        throw Error('This file changed. Reopen the current revision in Files.');
       const bytes = r.data instanceof Blob ? new Uint8Array(await r.data.arrayBuffer()) : r.data;
       live(ctx);
       if (!(bytes instanceof Uint8Array)) throw Error('Invalid account file data.');
@@ -84,7 +90,7 @@ export function fileBridge(host, signal) {
       try {
         const file = await ctx.files.version(path);
         live(ctx);
-        if (!sha(file?.sha256)) throw Error('The server did not confirm the current file revision.');
+        if (!sha(file?.sha256)) throw Error('Files did not confirm the current file revision.');
         return file.sha256;
       } catch (e) {
         live(ctx);
@@ -98,7 +104,7 @@ export function fileBridge(host, signal) {
       const r = await ctx.files.write(path, new Blob([bytes]), expected, { signal });
       live(ctx);
       if (!sha(r?.sha256))
-        throw Error('The server did not confirm this revision. Reopen Files before retrying.');
+        throw Error('Files did not confirm this revision. Reopen Files before retrying.');
       return { path, sha256: r.sha256 };
     },
     bind(resource) {

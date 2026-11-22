@@ -825,7 +825,7 @@ export function mountStudio(host, lang) {
         await importBytes(file.bytes, file.path, file);
       } else {
         await display(current);
-        say('Ready · ' + (bridge.hosted ? 'Account Files' : 'Device files'));
+        say('Ready · ' + bridge.location);
       }
       assertLive();
       element.dataset.state = 'ready';
