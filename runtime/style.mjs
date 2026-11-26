@@ -60,4 +60,12 @@ dialog { max-height: calc(100% - 1rem); overflow: auto; }
   .iconbtn,.subhead .iconbtn,.split>.iconbtn { width: 38px; min-height: 38px; }
   .palette { max-height: 9rem; overflow: auto; }
 }
+@media (max-height:190px) {
+  dialog:has(textarea) { max-height: calc(100% - 4px); padding: 4px 10px; }
+  dialog:has(textarea) h2 { font-size: 14px; margin: 0; }
+  dialog:has(textarea) label.field { gap: 1px; margin: 0; }
+  dialog:has(textarea) label.field textarea { height: 29px; min-height: 29px; padding: 3px 6px; resize: none; }
+  dialog:has(textarea) footer { margin-top: 3px; }
+  dialog:has(textarea) footer .btn { min-height: 30px; }
+}
 `;
