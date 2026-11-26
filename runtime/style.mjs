@@ -51,6 +51,7 @@ dialog { max-height: calc(100% - 1rem); overflow: auto; }
   .bar { padding-block: 5px; }
   .bar-group { width: 100%; margin: 0; flex-wrap: wrap; }
   .projectbar { padding-block: 4px; }
+  .fn-select { max-width: min(36cqi, 144px); }
   .subhead { height: 44px; padding-inline: 8px; }
   :is(.btn,.iconbtn,.tool,.menubtn,.switch button,.projectname,.fn-select) {
     min-height: 38px;

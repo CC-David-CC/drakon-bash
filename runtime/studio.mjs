@@ -126,6 +126,13 @@ export function mountStudio(host, lang) {
   function menuAction(text, fn) {
     return { text, action: run(fn) };
   }
+  function showZoom() {
+    if (!disposed) get('.zoom').textContent = Math.round(widget.getZoom() / 100) + '%';
+  }
+  function adjustZoom(delta) {
+    widget.setZoom(Math.max(4000, Math.min(22000, widget.getZoom() + delta)));
+    showZoom();
+  }
   const config = {
     textFormat: 'plain',
     canvasIcons: true,
@@ -203,9 +210,7 @@ export function mountStudio(host, lang) {
       selected = Array.isArray(items) ? (items[0] ?? null) : items;
       highlight();
     },
-    onZoomChanged: () => {
-      if (!disposed) get('.zoom').textContent = Math.round(widget.getZoom() / 100) + '%';
-    },
+    onZoomChanged: showZoom,
   };
   function paintCanvas(force = false) {
     if (disposed || (!canvas.clientWidth && !force)) return;
@@ -729,7 +734,7 @@ export function mountStudio(host, lang) {
     zooms,
     'Zoom out',
     'minus',
-    run(() => widget.setZoom(Math.max(4000, widget.getZoom() - 1000))),
+    run(() => adjustZoom(-1000)),
     'iconbtn',
   );
   const z = doc.createElement('span');
@@ -740,7 +745,7 @@ export function mountStudio(host, lang) {
     zooms,
     'Zoom in',
     'plus',
-    run(() => widget.setZoom(Math.min(22000, widget.getZoom() + 1000))),
+    run(() => adjustZoom(1000)),
     'iconbtn',
   );
   btn(
