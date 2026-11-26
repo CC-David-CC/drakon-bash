@@ -10,6 +10,53 @@ export const css = `
 .status{font-size:11px;gap:8px;min-height:30px;border-top:1px solid var(--border);padding:5px 14px;color:#4a5a50;background:#fff}.status:before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}.status[data-error=true]{color:#903c2c}.status[data-error=true]:before{background:#b6523e}.status .message{min-width:0;overflow-wrap:anywhere}.counts{margin-left:auto;white-space:nowrap;color:#6d786e}
 .menu{position:absolute;z-index:10;padding:4px;min-width:150px;max-width:95%;border:1px solid #d9e0d7;border-radius:8px;background:white;color:#213127;box-shadow:0 7px 24px #1d2c2929}.menubtn{justify-content:flex-start;display:flex;width:100%;background:transparent;border:0;white-space:normal;text-align:left}.menubtn:hover{background:var(--tint)}.problem{padding:16px;line-height:1.5}.problem button{margin-top:12px}.error-label{color:#ffd397;font-size:12px}
 dialog{border:1px solid #cdd6ce;border-radius:11px;background:#fff;color:#172920;width:min(420px,91vw);box-shadow:0 18px 70px #10231a33;padding:19px;font:14px Inter,system-ui,sans-serif}dialog::backdrop{background:#0c150f50}dialog h2{font-size:17px;line-height:1.3;margin:0 0 14px}dialog p{line-height:1.45;margin:6px 0 12px;color:#536158}label.field{display:grid;gap:6px;margin-bottom:13px;font-size:12px;font-weight:610}label.field input,label.field select,label.field textarea{border:1px solid #c4cec4;border-radius:5px;width:100%;padding:8px;color:#1b2b20;background:white;font:13px/1.5 ui-monospace,monospace}label.field textarea{resize:vertical;min-height:95px}dialog footer{display:flex;justify-content:flex-end;gap:7px;margin-top:14px}
+.shell { color: #192822; }
+:host([data-webos]) {
+  color-scheme: dark;
+  --surface: var(--desktop-surface, #252a30);
+  --raised: var(--desktop-raised, #353d46);
+  --edge: var(--desktop-border, #56616c);
+  --ink: var(--desktop-text, #f3f6f8);
+  --secondary: var(--desktop-muted, #b9c3cc);
+  --selection: #32305a;
+  --highlight: #bfbcff;
+}
+:host([data-webos]) :is(.shell,.board) { color: var(--ink); background: var(--surface); }
+:host([data-webos]) .shell { --border: var(--edge); }
+:host([data-webos]) :is(.bar,.projectbar,.palette,.status,.menu,dialog) {
+  color: var(--ink);
+  background: var(--raised);
+  border-color: var(--edge);
+}
+:host([data-webos]) :is(.projectname,.fn-select,.subhead) { color: var(--ink); }
+:host([data-webos]) :is(.counts,.slash,dialog p) { color: var(--secondary); }
+:host([data-webos]) :is(.btn,.iconbtn,.tool,.switch button, label.field :is(input,select,textarea)) {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--edge);
+}
+:host([data-webos]) :is(.tag,.tool[aria-pressed=true],.switch button[aria-pressed=true]) {
+  background: var(--selection);
+  color: var(--highlight);
+}
+:host([data-webos]) :is(.btn,.iconbtn,.tool,.menubtn):hover { background: #485562; }
+:host([data-webos]) .btn.primary { background: #5755ac; border-color: var(--highlight); color: #fff; }
+:host([data-webos]) .status[data-error=true] { color: #ffc0b3; }
+dialog { max-height: calc(100% - 1rem); overflow: auto; }
 @container(max-width:690px){.work{grid-template-columns:1fr}.switch{display:flex;gap:0}.switch button{min-height:25px;border-radius:0;padding:2px 7px}.switch button:first-child{border-radius:4px 0 0 4px}.switch button:last-child{border-radius:0 4px 4px 0;border-left:0}.switch button[aria-pressed=true]{background:var(--tint);color:var(--accent)}.work[data-tab=diagram] .codepanel,.work[data-tab=source] .board{display:none}.bar,.projectbar{padding-left:10px;padding-right:10px}.codepanel{border-left:0}.fn-select{max-width:130px}}
 @container(max-width:470px){.bar{gap:5px;flex-wrap:wrap}.bar-group{gap:4px}.bar .btn{padding:3px 6px}.bar-group .btn .ico{display:none}.brand{gap:5px}.tag{font-size:10px}.controls{gap:3px}.projectbar{gap:4px;flex-wrap:wrap}.projectname{max-width:95px}.fn-select{max-width:100px}.counts{display:none}.subhead{height:34px}.brand-mark{width:24px;height:24px}.palette{gap:3px;padding:4px 7px}.status{padding-left:9px}}
+.menu { max-height: calc(100% - 8px); overflow: auto; }
+@container(max-width:470px) {
+  :host([data-webos]) .brand { display: none; }
+  .bar { padding-block: 5px; }
+  .bar-group { width: 100%; margin: 0; flex-wrap: wrap; }
+  .projectbar { padding-block: 4px; }
+  .subhead { height: 44px; padding-inline: 8px; }
+  :is(.btn,.iconbtn,.tool,.menubtn,.switch button,.projectname,.fn-select) {
+    min-height: 38px;
+    touch-action: manipulation;
+  }
+  .iconbtn,.subhead .iconbtn,.split>.iconbtn { width: 38px; min-height: 38px; }
+  .palette { max-height: 9rem; overflow: auto; }
+}
 `;

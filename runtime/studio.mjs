@@ -23,7 +23,7 @@ export function mountStudio(host, lang) {
     element = doc.createElement('div');
   element.className = 'window-content drakon-generator';
   element.style.cssText =
-    'position:relative;display:flex;flex:1 1 auto;min-width:0;min-height:0;height:100%;overflow:hidden;padding:0';
+    'position:relative;display:flex;flex:1 1 auto;min-width:0;min-height:0;overflow:hidden;padding:0';
   const root = element.attachShadow({ mode: 'open' }),
     style = doc.createElement('style');
   style.textContent = css;
@@ -47,6 +47,7 @@ export function mountStudio(host, lang) {
     signal = controller.signal,
     bridge = fileBridge(host, signal),
     widget = createDrakonWidget(root);
+  element.toggleAttribute('data-webos', bridge.hosted);
   let data = project(lang, true),
     current = data.functions[0],
     baseline = JSON.stringify(data),
@@ -151,6 +152,21 @@ export function mountStudio(host, lang) {
         header: { iconBack: '#dce6dc' },
         end: { iconBack: '#dce6dc' },
       },
+      ...(bridge.hosted && {
+        background: '#252a30',
+        iconBack: '#353d46',
+        iconBorder: '#a7b5c4',
+        color: '#f3f6f8',
+        lines: '#a7b5c4',
+        backText: '#c2cdd6',
+        candyFill: '#32305a',
+        candyBorder: '#bfbcff',
+        icons: {
+          question: { iconBack: '#32305a', iconBorder: '#bfbcff' },
+          header: { iconBack: '#404b57' },
+          end: { iconBack: '#404b57' },
+        },
+      }),
     },
     startEditContent: (item, ro) => {
       if (!ro) void run(() => editItem(item))();
